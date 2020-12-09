@@ -256,21 +256,22 @@ bool Mrm_col_can::messageDecode(uint32_t canId, uint8_t data[8]) {
 	for (uint8_t deviceNumber = 0; deviceNumber < nextFree; deviceNumber++) 
 		if (isForMe(canId, deviceNumber)) {
 			if (!messageDecodeCommon(canId, data, deviceNumber)) {
-				bool any = false;
-				uint8_t startIndex = 0;
+				// const uint8_t STEP = 1;
+				// bool any = false;
+				// uint8_t startIndex = 0;
 				switch (data[0]) {
 				case CAN_COL_PATTERN_SENDING:
 					print("Sensor %i, pattern %i: %i/%i/%i (H/S/V)\n\r", deviceNumber, data[1], data[2], data[3], data[4]);
 					break;
 				case COMMAND_SENSORS_MEASURE_SENDING:
-					startIndex = 0;
-					any = true;
+					// startIndex = 0;
+					// any = true;
 					break;
 				case CAN_COL_SENDING_COLORS_1_TO_3:
 					(*readings)[deviceNumber][0] = (data[1] << 8) | data[2]; // blue
 					(*readings)[deviceNumber][1] = (data[3] << 8) | data[4]; // green
 					(*readings)[deviceNumber][2] = (data[5] << 8) | data[6]; // orange
-					any = true;
+					// any = true;
 					break;
 				case CAN_COL_SENDING_COLORS_4_TO_6:
 					(*readings)[deviceNumber][3] = (data[1] << 8) | data[2]; // red
@@ -278,7 +279,7 @@ bool Mrm_col_can::messageDecode(uint32_t canId, uint8_t data[8]) {
 					(*readings)[deviceNumber][5] = (data[5] << 8) | data[6]; // yellow
 					(*_patternByHSV)[deviceNumber] = data[7] & 0xF;
 					(*_patternBy6Colors)[deviceNumber] = data[7] >> 4;
-					any = true;
+					// any = true;
 					(*_lastReadingMs)[deviceNumber] = millis();
 					//print("RCV 6 col%i\n\r", (*_last6ColorsMs)[deviceNumber]); // AAA
 					break;
@@ -328,7 +329,6 @@ void Mrm_col_can::patternPrint() {
 
 /** Choose a pattern closest to the current 6 colors
 @param deviceNumber - Device's ordinal number. Each call of function add() assigns a increasing number to the device, starting with 0.
-@param includeValue - if true, HSV compared. If not, HS.
 @raturn - patternNumber
 */
 uint8_t Mrm_col_can::patternRecognizedBy6Colors(uint8_t deviceNumber) {

@@ -80,7 +80,7 @@ public:
 	/** Add a mrm-col-can board
 	@param deviceName - device's name
 	*/
-	void add(char * deviceName = "");
+	void add(char * deviceName = (char*)"");
 
 	/** Blue
 	@param deviceNumber - Device's ordinal number. Each call of function add() assigns a increasing number to the device, starting with 0.
@@ -163,7 +163,6 @@ public:
 
 	/** Choose a pattern closest to the current 6 colors
 	@param deviceNumber - Device's ordinal number. Each call of function add() assigns a increasing number to the device, starting with 0.
-	@param includeValue - if true, HSV compared. If not, HS.
 	@raturn - patternNumber
 	*/
 	uint8_t patternRecognizedBy6Colors(uint8_t deviceNumber);
