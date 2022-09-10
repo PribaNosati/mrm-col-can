@@ -252,8 +252,9 @@ void Mrm_col_can::integrationTime(uint8_t deviceNumber, uint8_t value) {
 
 /** Read CAN Bus message into local variables
 @param data - 8 bytes from CAN Bus message.
+@param length - number of data bytes
 */
-bool Mrm_col_can::messageDecode(uint32_t canId, uint8_t data[8]) {
+bool Mrm_col_can::messageDecode(uint32_t canId, uint8_t data[8], uint8_t length) {
 	for (uint8_t deviceNumber = 0; deviceNumber < nextFree; deviceNumber++)
 		if (isForMe(canId, deviceNumber)) {
 			if (!messageDecodeCommon(canId, data, deviceNumber)) {
@@ -296,7 +297,7 @@ bool Mrm_col_can::messageDecode(uint32_t canId, uint8_t data[8]) {
 					break;
 				default:
 					robotContainer->print("Unknown command. ");
-					messagePrint(canId, 8, data, false);
+					messagePrint(canId, length, data, false);
 					errorCode = 204;
 					errorInDeviceNumber = deviceNumber;
 				}
